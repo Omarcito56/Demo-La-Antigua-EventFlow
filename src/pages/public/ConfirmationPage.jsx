@@ -3,7 +3,8 @@ import { useLocation, Link } from "react-router-dom";
 import { useEventData } from "../../hooks/useEventData";
 import { 
   CheckIcon, CheckCircleIcon, ArrowLeftIcon, 
-  CreditCardIcon, SparklesIcon, WhatsAppIcon, CalendarIcon
+  CreditCardIcon, SparklesIcon, WhatsAppIcon, CalendarIcon,
+  UsersIcon, HeartIcon, ArrowRightIcon
 } from "../../components/common/Icons";
 import { StatusBadge } from "../../components/common/StatusBadge";
 import { useTrackOnMount } from "../../analytics/analytics";
@@ -37,6 +38,21 @@ export const ConfirmationPage = () => {
   const depositAmount = request.suggestedDeposit || 5000;
   const remainingBalance = Math.max(0, estimatedTotal - depositAmount);
 
+  const formatHumanDate = (dateStr) => {
+    if (!dateStr) return "Por definir";
+    const parts = dateStr.split("-").map(Number);
+    if (parts.length === 3 && !isNaN(parts[0])) {
+      const d = new Date(parts[0], parts[1] - 1, parts[2]);
+      return d.toLocaleDateString("es-MX", {
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      });
+    }
+    return dateStr;
+  };
+
   const handleRegisterDeposit = () => {
     registerDepositDemo(request.folio, {
       amount: depositAmount,
@@ -68,17 +84,20 @@ export const ConfirmationPage = () => {
             La Antigua Eventos podrá revisar tu solicitud y ponerse en contacto contigo para confirmar disponibilidad y preparar los detalles.
           </p>
 
-          <div style={{ textAlign: "center", marginBottom: "1.75rem" }}>
+          {/* Botón WhatsApp limpio sin número saturado */}
+          <div className="confirmation-whatsapp-container">
             <a 
               href={`https://wa.me/528991055896?text=${encodeURIComponent(`Hola La Antigua Eventos, acabo de enviar mi solicitud en línea con el folio demo ${request.folio} para mi evento.`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-whatsapp btn-sm"
-              style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
+              className="btn btn-whatsapp confirmation-wa-btn"
             >
-              <WhatsAppIcon size={18} />
-              <span>Seguimiento directo por WhatsApp: 899 105 5896</span>
+              <WhatsAppIcon size={20} />
+              <span>Seguir en WhatsApp</span>
             </a>
+            <span className="confirmation-wa-note">
+              Canal directo de seguimiento y confirmación de disponibilidad
+            </span>
           </div>
 
           {/* Details Card */}
@@ -86,9 +105,9 @@ export const ConfirmationPage = () => {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1.25rem" }}>
               <div>
                 <span style={{ fontSize: "0.78rem", color: "var(--color-text-muted)" }}>Fecha</span>
-                <div style={{ fontWeight: 700, color: "var(--color-charcoal-deep)", display: "flex", alignItems: "center", gap: "0.4rem" }}>
+                <div style={{ fontWeight: 700, color: "var(--color-charcoal-deep)", display: "flex", alignItems: "center", gap: "0.4rem", textTransform: "capitalize" }}>
                   <CalendarIcon size={14} style={{ color: "var(--color-terracotta)" }} />
-                  <span>{request.date}</span>
+                  <span>{formatHumanDate(request.date)}</span>
                 </div>
               </div>
 
@@ -99,7 +118,10 @@ export const ConfirmationPage = () => {
 
               <div>
                 <span style={{ fontSize: "0.78rem", color: "var(--color-text-muted)" }}>Invitados</span>
-                <div style={{ fontWeight: 600, color: "var(--color-charcoal-deep)" }}>{request.guests} personas</div>
+                <div style={{ fontWeight: 600, color: "var(--color-charcoal-deep)", display: "flex", alignItems: "center", gap: "0.4rem" }}>
+                  <UsersIcon size={14} style={{ color: "var(--color-text-muted)" }} />
+                  <span>{request.guests} personas</span>
+                </div>
               </div>
 
               <div>
@@ -108,7 +130,7 @@ export const ConfirmationPage = () => {
               </div>
 
               <div>
-                <span style={{ fontSize: "0.78rem", color: "var(--color-text-muted)" }}>Estimado</span>
+                <span style={{ fontSize: "0.78rem", color: "var(--color-text-muted)" }}>Total estimado</span>
                 <div style={{ fontWeight: 700, color: "var(--color-terracotta)" }}>
                   ${estimatedTotal.toLocaleString("es-MX")} MXN
                 </div>
@@ -127,7 +149,7 @@ export const ConfirmationPage = () => {
               ANTICIPO DEMO: APARTA TU FECHA
               ================================================== */}
           <div className="deposit-demo-box">
-            <span className="simulation-badge">SIMULACIÓN</span>
+            <span className="simulation-badge">SIMULACIÓN INTERACTIVA</span>
 
             <div className="deposit-demo-header">
               <h3 style={{ fontSize: "1.3rem", color: "var(--color-charcoal-deep)" }}>Aparta tu fecha</h3>
@@ -180,9 +202,10 @@ export const ConfirmationPage = () => {
                   </div>
                 </div>
 
+                {/* Botón de acción con texto multilínea protegido contra overflow */}
                 <button 
                   type="button" 
-                  className="btn btn-primary btn-block btn-lg"
+                  className="btn btn-primary btn-block confirmation-deposit-btn"
                   onClick={handleRegisterDeposit}
                 >
                   <SparklesIcon size={18} />
@@ -194,20 +217,30 @@ export const ConfirmationPage = () => {
                 </p>
               </div>
             ) : (
-              <div style={{ padding: "1.25rem", backgroundColor: "#ECFDF5", borderRadius: "var(--radius-sm)", border: "1px solid #A7F3D0", textAlign: "center" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", color: "#065F46", fontWeight: 700, fontSize: "1.05rem", marginBottom: "0.25rem" }}>
+              <div className="deposit-success-banner animate-fade-in">
+                <div className="deposit-success-title">
                   <CheckCircleIcon size={22} />
                   <span>¡Anticipo demo registrado con éxito!</span>
                 </div>
-                <p style={{ fontSize: "0.85rem", color: "#047857" }}>
-                  La fecha ha sido apartada en la simulación. El movimiento se ha reflejado en el módulo de Pagos, Eventos y Calendario del panel administrativo.
+                <p className="deposit-success-desc">
+                  La fecha para tu evento ha sido apartada en la simulación con un anticipo pactado de <strong>${depositAmount.toLocaleString("es-MX")} MXN</strong>.
                 </p>
+                <div className="deposit-success-meta">
+                  <span>Folio: <strong>{request.folio}</strong></span>
+                  <span>Saldo restante: <strong>${remainingBalance.toLocaleString("es-MX")} MXN</strong></span>
+                </div>
+                <div style={{ marginTop: "1rem", display: "flex", justifyContent: "center" }}>
+                  <Link to="/admin/eventos" className="btn btn-secondary btn-sm" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
+                    <span>Ver reflejado en panel administrativo</span>
+                    <ArrowRightIcon size={14} />
+                  </Link>
+                </div>
               </div>
             )}
           </div>
 
           {/* Botones de Retorno y Acceso a Admin */}
-          <div style={{ display: "flex", justifyContent: "center", gap: "1rem", flexWrap: "wrap", marginTop: "2rem" }}>
+          <div className="confirmation-bottom-actions">
             <Link to="/" className="btn btn-outline btn-sm">
               <ArrowLeftIcon size={15} />
               <span>Volver al inicio</span>
@@ -222,3 +255,4 @@ export const ConfirmationPage = () => {
     </div>
   );
 };
+

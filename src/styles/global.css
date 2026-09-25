@@ -209,6 +209,8 @@ button, input, select, textarea {
 
 .btn-block {
   width: 100%;
+  white-space: normal;
+  text-align: center;
 }
 
 /* Badges y Pastillas de Estado */

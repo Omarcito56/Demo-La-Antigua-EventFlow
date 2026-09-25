@@ -524,8 +524,14 @@ export const QuotePage = () => {
           })}
         </nav>
 
+        {/* Indicador visible en móvil del paso actual */}
+        <div className="stepper-mobile-current">
+          <span>Paso {stepsList[currentStep - 1].num} de 07:</span> <strong>{stepsList[currentStep - 1].name}</strong>
+        </div>
+
         {/* Layout Grid: Pasos (Izquierda) + Desglose Dinámico (Derecha) */}
         <div className="quote-layout-grid">
+
           {/* Columna Izquierda: Tarjeta del Paso Activo */}
           <main className="quote-step-card animate-fade-in">
             {errorMsg && (
@@ -1061,8 +1067,11 @@ export const QuotePage = () => {
                   <div className="sheet-rows-list">
                     <div className="sheet-row">
                       <span className="sheet-label">Fecha tentativa:</span>
-                      <span className="sheet-val">{quoteState.date || "No definida"}</span>
+                      <span className="sheet-val" style={{ textTransform: "capitalize" }}>
+                        {formatHumanDate(quoteState.date) || "No definida"}
+                      </span>
                     </div>
+
                     <div className="sheet-row">
                       <span className="sheet-label">Tipo de evento:</span>
                       <span className="sheet-val">{eventTypeName}</span>
