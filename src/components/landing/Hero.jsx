@@ -1,8 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowRightIcon, SparklesIcon, CheckCircleIcon, CalendarIcon } from "../common/Icons";
+import { ArrowRightIcon, SparklesIcon, CalendarIcon, HeartIcon } from "../common/Icons";
+import { trackEvent } from "../../analytics/analytics";
 
 export const Hero = () => {
+  const handleCta = (ctaName, target) => {
+    trackEvent("demo_cta_clicked", {
+      cta_name: ctaName,
+      location: "hero",
+      target_route: target
+    });
+  };
+
   return (
     <section className="hero-editorial">
       <div className="container">
@@ -11,70 +20,80 @@ export const Hero = () => {
           <div className="hero-content">
             <div className="hero-eyebrow">
               <SparklesIcon size={14} />
-              <span>LOS CEREZOS · SALÓN DE EVENTOS · REYNOSA</span>
+              <span>EVENTOS · CELEBRACIONES · MOMENTOS</span>
             </div>
 
             <h1 className="hero-title">
-              Todo para tu gran día.<br />
-              En una sola experiencia.
+              Tu fecha.<br />
+              Tu celebración.<br />
+              <span style={{ color: "var(--color-primary)", fontStyle: "italic" }}>Tu momento.</span>
             </h1>
 
             <p className="hero-subtitle">
-              Explora paquetes, personaliza servicios y solicita disponibilidad para tu fecha desde un mismo lugar.
+              Consulta disponibilidad, explora opciones y comienza a organizar tu evento de una manera sencilla.
             </p>
 
             <div className="hero-actions">
-              <Link to="/cotizar" className="btn btn-primary btn-lg">
+              <a 
+                href="#disponibilidad" 
+                className="btn btn-primary btn-lg"
+                onClick={() => handleCta("consultar_disponibilidad", "#disponibilidad")}
+              >
+                <CalendarIcon size={18} />
+                <span>Consultar disponibilidad</span>
+              </a>
+
+              <Link 
+                to="/cotizar" 
+                className="btn btn-secondary btn-lg"
+                onClick={() => handleCta("cotizar_mi_evento", "/cotizar")}
+              >
                 <span>Cotizar mi evento</span>
                 <ArrowRightIcon size={18} />
               </Link>
-              <a href="#calendario" className="btn btn-secondary btn-lg">
-                <CalendarIcon size={18} />
-                <span>Consultar fecha</span>
-              </a>
             </div>
 
-            {/* 4 Indicadores discretos de la propuesta demo */}
+            {/* 4 Indicadores discretos de la propuesta: Fechas, Cotizaciones, Apartados, Seguimiento */}
             <div className="hero-indicators">
               <div className="hero-indicator-item">
                 <span className="indicator-number">01</span>
-                <span className="indicator-label">Paquetes integrales</span>
-                <span className="indicator-sub">Salón, banquete y música</span>
+                <span className="indicator-label">Fechas</span>
+                <span className="indicator-sub">Calendario y disponibilidad</span>
               </div>
               <div className="hero-indicator-item">
                 <span className="indicator-number">02</span>
-                <span className="indicator-label">Cotización en vivo</span>
-                <span className="indicator-sub">Presupuesto transparente</span>
+                <span className="indicator-label">Cotizaciones</span>
+                <span className="indicator-sub">Presupuestos estimados</span>
               </div>
               <div className="hero-indicator-item">
                 <span className="indicator-number">03</span>
-                <span className="indicator-label">Disponibilidad</span>
-                <span className="indicator-sub">Agenda en tiempo real</span>
+                <span className="indicator-label">Apartados</span>
+                <span className="indicator-sub">Simulación demostrativa</span>
               </div>
               <div className="hero-indicator-item">
                 <span className="indicator-number">04</span>
-                <span className="indicator-label">Apartado de fecha</span>
-                <span className="indicator-sub">Simulación sin riesgo</span>
+                <span className="indicator-label">Seguimiento</span>
+                <span className="indicator-sub">Organización en un solo lugar</span>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Visual Asimétrico de Alto Impacto */}
+          {/* Right Column: Fotografía Protagonista Romántica / Editorial */}
           <div className="hero-visual-wrap">
             <div className="hero-main-photo-card">
               <img 
-                src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&q=80" 
-                alt="Montaje de gala en salón de eventos Los Cerezos" 
+                src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80" 
+                alt="Montaje romántico y elegante en La Antigua Eventos" 
                 className="hero-img-cover"
                 loading="eager"
               />
               <div className="hero-floating-badge">
                 <div className="hero-badge-left">
-                  <span className="hero-badge-tag">Propuesta Personalizada</span>
-                  <span className="hero-badge-title">Los Cerezos Salón de Eventos</span>
+                  <span className="hero-badge-tag">Romantic Modern Venue</span>
+                  <span className="hero-badge-title">La Antigua Eventos</span>
                 </div>
-                <div style={{ color: "var(--color-champagne)" }}>
-                  <CheckCircleIcon size={24} />
+                <div style={{ color: "var(--color-champagne)", display: "flex", alignItems: "center" }}>
+                  <HeartIcon size={22} />
                 </div>
               </div>
             </div>

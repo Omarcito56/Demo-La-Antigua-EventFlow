@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { CerezosLogoIcon, ArrowLeftIcon, AlertCircleIcon, ArrowRightIcon, SparklesIcon } from "../../components/common/Icons";
+import { LaAntiguaLogoIcon, ArrowLeftIcon, AlertCircleIcon, ArrowRightIcon, SparklesIcon } from "../../components/common/Icons";
 import { trackEvent, useTrackOnMount } from "../../analytics/analytics";
 
 export const AdminLoginPage = () => {
@@ -16,7 +16,7 @@ export const AdminLoginPage = () => {
     setError("");
 
     const validEmail = email.trim().toLowerCase();
-    if ((validEmail === "admin@eventflow.demo" || validEmail === "loscerezos@eventflow.demo" || validEmail === "contacto@loscerezos.demo") && password === "demo123") {
+    if ((validEmail === "admin@eventflow.demo" || validEmail === "laantigua@eventflow.demo" || validEmail === "contacto@laantigua.demo") && password === "demo123") {
       trackEvent("admin_login_success", { route: "/admin/dashboard" });
       localStorage.setItem("eventflow_auth", "true");
       navigate("/admin/dashboard");
@@ -35,15 +35,15 @@ export const AdminLoginPage = () => {
     <div className="login-page-wrap">
       <div className="login-card animate-fade-in">
         <div className="login-brand-header">
-          <div className="login-logo-circle">
-            <CerezosLogoIcon size={26} />
+          <div className="login-logo-circle" style={{ backgroundColor: "var(--color-terracotta)", color: "#FFFFFF" }}>
+            <LaAntiguaLogoIcon size={26} />
           </div>
           <span className="login-demo-pill">Panel Administrativo Demo</span>
           <h1 style={{ fontSize: "1.6rem", color: "var(--color-charcoal-deep)", marginBottom: "0.35rem" }}>
             EventFlow Admin
           </h1>
           <p style={{ fontSize: "0.88rem", color: "var(--color-text-secondary)" }}>
-            Los Cerezos Salón de Eventos
+            La Antigua Eventos
           </p>
         </div>
 
@@ -115,7 +115,7 @@ export const AdminLoginPage = () => {
         <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
           <Link to="/" style={{ fontSize: "0.85rem", color: "var(--color-text-secondary)", display: "inline-flex", alignItems: "center", gap: "0.35rem" }}>
             <ArrowLeftIcon size={14} />
-            <span>Volver al sitio público de Los Cerezos</span>
+            <span>Volver al sitio público de La Antigua Eventos</span>
           </Link>
         </div>
       </div>

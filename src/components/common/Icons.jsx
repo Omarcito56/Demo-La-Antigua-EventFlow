@@ -321,17 +321,18 @@ export const BuildingIcon = ({ size = 20, className = "" }) => (
   </svg>
 );
 
-export const CerezosLogoIcon = ({ size = 24, className = "" }) => (
+export const LaAntiguaLogoIcon = ({ size = 24, className = "" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    {/* Emblema editorial de Los Cerezos: Flor de gala y corona de celebración */}
-    <circle cx="12" cy="12" r="10.2" strokeWidth="1" strokeDasharray="1.5 2" opacity="0.65" />
-    <path d="M12 4.5c1.4 1.8 2 3.2 1.8 4.6-.2 1.3-1.1 2.2-2.3 2.2-1.2 0-2.1-.9-2.3-2.2-.2-1.4.4-2.8 1.8-4.6" fill="currentColor" fillOpacity="0.18" />
-    <path d="M19.5 12c-1.8 1.4-3.2 2-4.6 1.8-1.3-.2-2.2-1.1-2.2-2.3 0-1.2.9-2.1 2.2-2.3 1.4-.2 2.8.4 4.6 1.8" fill="currentColor" fillOpacity="0.18" />
-    <path d="M12 19.5c-1.4-1.8-2-3.2-1.8-4.6.2-1.3 1.1-2.2 2.3-2.2 1.2 0 2.1.9 2.3 2.2.2 1.4-.4 2.8-1.8 4.6" fill="currentColor" fillOpacity="0.18" />
-    <path d="M4.5 12c1.8-1.4 3.2-2 4.6-1.8 1.3.2 2.2 1.1 2.2 2.3 0 1.2-.9 2.1-2.2 2.3-1.4.2-2.8-.4-4.6-1.8" fill="currentColor" fillOpacity="0.18" />
-    <circle cx="12" cy="12" r="1.8" fill="currentColor" />
+    {/* Emblema editorial de La Antigua Eventos: Arco de celebración, olivo botánico y monograma sutil */}
+    <path d="M4 21V9a8 8 0 0 1 16 0v12" strokeWidth="1.6" />
+    <path d="M7 21V10a5 5 0 0 1 10 0v11" strokeWidth="1" strokeDasharray="1.5 2" opacity="0.6" />
+    <path d="M12 4v4M10 6h4" strokeWidth="1.4" />
+    <circle cx="12" cy="13" r="2.2" fill="currentColor" fillOpacity="0.25" />
+    <path d="M6 21h12" strokeWidth="1.6" />
   </svg>
 );
+
+export const EventFlowLogoIcon = LaAntiguaLogoIcon;
 
 export const WhatsAppIcon = ({ size = 20, className = "" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className} style={{ display: "inline-block", verticalAlign: "middle", flexShrink: 0 }}>
@@ -349,5 +350,10 @@ export const WhatsAppIcon = ({ size = 20, className = "" }) => (
   </svg>
 );
 
-export const EventFlowLogoIcon = CerezosLogoIcon;
-
+export const InstagramIcon = ({ size = 20, className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ display: "inline-block", verticalAlign: "middle", flexShrink: 0 }}>
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);

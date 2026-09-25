@@ -1,54 +1,76 @@
 :root {
-  /* Paleta Oficial BS EventFlow — Los Cerezos Salón de Eventos */
-  --color-burgundy: #681F32;            /* Borgoña profundo de gala */
-  --color-burgundy-dark: #531828;       /* Borgoña intenso */
-  --color-burgundy-light: #842A42;      /* Borgoña iluminado */
-  --color-burgundy-soft: #F7EFF2;       /* Fondo suave borgoña */
-  
-  --color-champagne: #D5BD93;           /* Champagne elegante */
-  --color-champagne-dark: #BFA373;      /* Champagne dorado */
-  --color-champagne-light: #E8D9BF;     /* Champagne sutil */
+  /* ==================================================
+     Identidad Visual: "Romantic Modern Venue"
+     Propuesta: La Antigua Eventos (Reynosa, Tamaulipas)
+     Paleta Oficial: Crema, Rosa Polvo, Terracota, Verde Oscuro, Carbón, Champagne, Blanco
+     ================================================== */
+
+  /* Colores Principales de Marca */
+  --color-terracotta: #A86C60;          /* Terracota cálido y elegante */
+  --color-terracotta-dark: #8E5449;     /* Terracota profundo */
+  --color-terracotta-light: #C08175;    /* Terracota suave */
+  --color-terracotta-soft: #F9EFEF;     /* Fondo sutil terracota */
+
+  --color-dusty-rose: #D8B5AF;          /* Rosa polvo romántico */
+  --color-dusty-rose-soft: #FAF3F2;     /* Fondo sutil rosa polvo */
+  --color-dusty-rose-dark: #BC968F;     /* Rosa polvo medio */
+
+  --color-green-dark: #4A574C;          /* Verde oscuro botánico y natural */
+  --color-green-dark-soft: #EFF3F0;     /* Fondo sutil verde olivo */
+  --color-green-light: #657567;         /* Verde botánico suave */
+
+  --color-champagne: #D8C6A5;           /* Champagne refinado */
+  --color-champagne-dark: #C2AE8B;      /* Champagne dorado */
+  --color-champagne-light: #EDE4D3;     /* Champagne crema */
   --color-champagne-soft: #FAF6EE;      /* Fondo suave champagne */
-  
-  --color-cream: #F8F3EA;               /* Crema cálido de fondo */
-  --color-cream-alt: #F1E9DA;           /* Crema secundario */
-  
-  --color-charcoal-deep: #22201F;       /* Carbón */
-  --color-charcoal-light: #363331;      /* Carbón atenuado */
+
+  --color-cream: #FAF6EF;               /* Crema cálido base */
+  --color-cream-alt: #F3EBDD;           /* Crema secundario suave */
+
+  --color-charcoal-deep: #282725;       /* Carbón elegante */
+  --color-charcoal-light: #423F3C;      /* Carbón suave */
   --color-white: #FFFFFF;               /* Blanco puro */
-  --color-text-secondary: #655E59;      /* Texto secundario de alta legibilidad */
-
-  /* Mapeo Semántico */
-  --color-primary: #681F32;             /* Borgoña profundo para marca y botones primarios */
-  --color-primary-light: #842A42;
-  --color-primary-hover: #531828;
-
-  --color-accent: #D5BD93;              /* Champagne para acentos dorados y contrastes finos */
-  --color-accent-hover: #BFA373;
-  --color-accent-soft: #FAF6EE;
-  --color-accent-border: #E5D5BC;
-
-  --color-cta: #681F32;                 /* Borgoña profundo para llamados a la acción de alto ticket */
-  --color-cta-hover: #531828;
-  --color-cta-soft: #F7EFF2;
-
-  --color-bg: #F8F3EA;                  /* Fondo general crema */
-  --color-bg-alt: #F1E9DA;              /* Fondo crema alternativo */
-  --color-surface: #FFFFFF;             /* Superficie de tarjetas y modales */
-  --color-surface-hover: #FAF7F2;
-
-  /* Tipografías */
-  --color-text-primary: #22201F;        /* Texto carbón */
-  --color-text-muted: #877F78;          /* Texto sutil */
+  --color-text-secondary: #5F5A56;      /* Texto secundario de alta legibilidad */
+  --color-text-muted: #8C8681;          /* Texto sutil */
+  --color-text-primary: #282725;        /* Carbón principal */
   --color-text-inverse: #FFFFFF;
 
-  /* Gradientes Editoriales y de Lujo */
-  --gradient-gold: linear-gradient(135deg, #D5BD93 0%, #E8D9BF 50%, #BFA373 100%);
-  --gradient-gold-subtle: linear-gradient(135deg, rgba(213, 189, 147, 0.28) 0%, rgba(213, 189, 147, 0.12) 100%);
-  --gradient-burgundy: linear-gradient(135deg, #681F32 0%, #842A42 100%);
-  --gradient-burgundy-subtle: linear-gradient(135deg, rgba(104, 31, 50, 0.18) 0%, rgba(104, 31, 50, 0.05) 100%);
-  --gradient-dark-hero: linear-gradient(145deg, #22201F 0%, #363331 60%, #1A1918 100%);
-  --gradient-card-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 243, 234, 0.85) 100%);
+  /* Mapeo Semántico Oficial */
+  --color-primary: #A86C60;             /* Terracota para marca y botones primarios */
+  --color-primary-light: #C08175;
+  --color-primary-hover: #8E5449;
+  --color-primary-soft: #F9EFEF;
+
+  --color-accent: #D8C6A5;              /* Champagne para acentos dorados y detalles */
+  --color-accent-hover: #C2AE8B;
+  --color-accent-soft: #FAF6EE;
+  --color-accent-border: #E8D9BF;
+
+  --color-cta: #A86C60;                 /* Terracota para llamados a la acción */
+  --color-cta-hover: #8E5449;
+  --color-cta-soft: #F9EFEF;
+
+  --color-bg: #FAF6EF;                  /* Fondo general crema */
+  --color-bg-alt: #F3EBDD;              /* Fondo alternativo crema cálido */
+  --color-surface: #FFFFFF;             /* Superficie de tarjetas y modales */
+  --color-surface-hover: #FCF9F5;
+
+  /* Alias de compatibilidad: redirigidos al nuevo Terracota (CERO borgoña dominante) */
+  --color-burgundy: #A86C60;
+  --color-burgundy-dark: #8E5449;
+  --color-burgundy-light: #C08175;
+  --color-burgundy-soft: #F9EFEF;
+
+  /* Gradientes Editoriales Románticos */
+  --gradient-gold: linear-gradient(135deg, #D8C6A5 0%, #EDE4D3 50%, #C2AE8B 100%);
+  --gradient-gold-subtle: linear-gradient(135deg, rgba(216, 198, 165, 0.3) 0%, rgba(216, 198, 165, 0.1) 100%);
+  --gradient-terracotta: linear-gradient(135deg, #A86C60 0%, #BD7E72 100%);
+  --gradient-terracotta-subtle: linear-gradient(135deg, rgba(168, 108, 96, 0.15) 0%, rgba(168, 108, 96, 0.04) 100%);
+  --gradient-rose-subtle: linear-gradient(135deg, rgba(216, 181, 175, 0.25) 0%, rgba(250, 246, 239, 0.5) 100%);
+  --gradient-burgundy: linear-gradient(135deg, #A86C60 0%, #BD7E72 100%);
+  --gradient-burgundy-subtle: linear-gradient(135deg, rgba(168, 108, 96, 0.15) 0%, rgba(168, 108, 96, 0.04) 100%);
+  --gradient-dark-hero: linear-gradient(145deg, #282725 0%, #423F3C 60%, #1E1D1C 100%);
+  --gradient-card-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(250, 246, 239, 0.88) 100%);
 
   /* Estados */
   --status-pending-bg: #FEF3C7;
@@ -78,14 +100,15 @@
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Outfit', sans-serif;
 
-  /* Sombras Sofisticadas */
-  --shadow-xs: 0 1px 2px 0 rgba(34, 32, 31, 0.04);
-  --shadow-sm: 0 2px 5px 0 rgba(34, 32, 31, 0.06);
-  --shadow-md: 0 4px 16px -2px rgba(34, 32, 31, 0.08), 0 2px 6px -1px rgba(34, 32, 31, 0.04);
-  --shadow-lg: 0 14px 32px -4px rgba(34, 32, 31, 0.1), 0 6px 14px -2px rgba(34, 32, 31, 0.05);
-  --shadow-xl: 0 24px 44px -8px rgba(34, 32, 31, 0.15);
-  --shadow-gold: 0 8px 24px -4px rgba(213, 189, 147, 0.4);
-  --shadow-burgundy: 0 8px 24px -4px rgba(104, 31, 50, 0.28);
+  /* Sombras */
+  --shadow-xs: 0 1px 2px 0 rgba(40, 39, 37, 0.04);
+  --shadow-sm: 0 2px 5px 0 rgba(40, 39, 37, 0.06);
+  --shadow-md: 0 4px 16px -2px rgba(40, 39, 37, 0.08), 0 2px 6px -1px rgba(40, 39, 37, 0.04);
+  --shadow-lg: 0 14px 32px -4px rgba(40, 39, 37, 0.1), 0 6px 14px -2px rgba(40, 39, 37, 0.05);
+  --shadow-xl: 0 24px 44px -8px rgba(40, 39, 37, 0.15);
+  --shadow-gold: 0 8px 24px -4px rgba(216, 198, 165, 0.4);
+  --shadow-terracotta: 0 8px 24px -4px rgba(168, 108, 96, 0.28);
+  --shadow-burgundy: 0 8px 24px -4px rgba(168, 108, 96, 0.28);
 
   /* Bordes y Radios */
   --radius-xs: 4px;
@@ -95,10 +118,11 @@
   --radius-xl: 30px;
   --radius-full: 9999px;
 
-  --border-subtle: 1px solid rgba(213, 189, 147, 0.35);
-  --border-light: 1px solid #EBE3D5;
-  --border-gold: 1px solid #D5BD93;
-  --border-burgundy: 1px solid #681F32;
+  --border-subtle: 1px solid rgba(216, 198, 165, 0.4);
+  --border-light: 1px solid #ECE3D7;
+  --border-gold: 1px solid #D8C6A5;
+  --border-terracotta: 1px solid #A86C60;
+  --border-burgundy: 1px solid #A86C60;
 
   /* Transiciones */
   --transition-fast: 0.15s ease;

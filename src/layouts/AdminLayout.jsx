@@ -25,7 +25,7 @@ export const AdminLayout = () => {
     if (path.includes("/pagos")) return "Anticipos y Pagos";
     if (path.includes("/paquetes")) return "Catálogo de Paquetes Demo";
     if (path.includes("/configuracion")) return "Configuración del Sistema";
-    return "Panel de Administración · Los Cerezos";
+    return "Panel de Administración · La Antigua Eventos";
   };
 
   return (

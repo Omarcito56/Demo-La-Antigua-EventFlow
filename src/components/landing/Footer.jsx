@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { CerezosLogoIcon, MailIcon, WhatsAppIcon } from "../common/Icons";
+import { LaAntiguaLogoIcon, WhatsAppIcon } from "../common/Icons";
 import { initialBusinessData } from "../../data/eventFlowData";
 
 export const Footer = () => {
@@ -11,14 +11,14 @@ export const Footer = () => {
           {/* Brand Col */}
           <div className="footer-brand-col">
             <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.5rem" }}>
-              <div style={{ width: "36px", height: "36px", borderRadius: "8px", background: "var(--color-burgundy)", color: "var(--color-champagne)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <CerezosLogoIcon size={22} />
+              <div style={{ width: "36px", height: "36px", borderRadius: "8px", background: "var(--color-terracotta)", color: "var(--color-white)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <LaAntiguaLogoIcon size={22} />
               </div>
-              <h3 className="footer-brand-title">{initialBusinessData.brandShort}</h3>
+              <h3 className="footer-brand-title">{initialBusinessData.name}</h3>
             </div>
-            <span className="footer-brand-subtitle">Salón de Eventos · Reynosa</span>
+            <span className="footer-brand-subtitle">Romantic Modern Venue · Reynosa</span>
             <p className="footer-brand-desc">
-              Propuesta digital interactiva para paquetes integrales, cotización en vivo, disponibilidad de fechas y coordinación de eventos de ticket alto.
+              Propuesta interactiva para consultar disponibilidad de fechas, cotizar paquetes, realizar apartados demostrativos y organizar celebraciones.
             </p>
           </div>
 
@@ -27,31 +27,33 @@ export const Footer = () => {
             <h4 className="footer-col-heading">Navegación</h4>
             <ul className="footer-links-list">
               <li className="footer-link-item"><Link to="/">Inicio</Link></li>
-              <li className="footer-link-item"><a href="#paquetes">Paquetes integrales</a></li>
-              <li className="footer-link-item"><Link to="/cotizar">Cotizador en línea</Link></li>
-              <li className="footer-link-item"><a href="#calendario">Encuentra tu fecha</a></li>
+              <li className="footer-link-item"><a href="#experiencias">Experiencias</a></li>
+              <li className="footer-link-item"><a href="#paquetes">Paquetes demo</a></li>
+              <li className="footer-link-item"><a href="#disponibilidad">Disponibilidad en vivo</a></li>
+              <li className="footer-link-item"><Link to="/cotizar">Cotizador interactivo</Link></li>
               <li className="footer-link-item"><a href="#contacto">Contacto y citas</a></li>
             </ul>
           </div>
 
           {/* Nav Col 2 */}
           <div>
-            <h4 className="footer-col-heading">Celebraciones Demo</h4>
+            <h4 className="footer-col-heading">Celebraciones</h4>
             <ul className="footer-links-list">
               <li className="footer-link-item"><Link to="/cotizar?tipo=boda">Bodas y recepciones</Link></li>
               <li className="footer-link-item"><Link to="/cotizar?tipo=xv-anos">XV Años de gala</Link></li>
+              <li className="footer-link-item"><Link to="/cotizar?tipo=cumpleanos">Cumpleaños</Link></li>
               <li className="footer-link-item"><Link to="/cotizar?tipo=graduacion">Graduaciones</Link></li>
-              <li className="footer-link-item"><Link to="/cotizar?tipo=corporativo">Eventos corporativos</Link></li>
               <li className="footer-link-item"><Link to="/cotizar?tipo=aniversario">Aniversarios</Link></li>
+              <li className="footer-link-item"><Link to="/cotizar?tipo=corporativo">Eventos corporativos</Link></li>
             </ul>
           </div>
 
           {/* Contact Col */}
           <div>
-            <h4 className="footer-col-heading">Contacto y WhatsApp</h4>
+            <h4 className="footer-col-heading">Atención Directa</h4>
             <div className="footer-contact-info">
               <a 
-                href={initialBusinessData.whatsappUrl + "?text=" + encodeURIComponent("Hola Los Cerezos, me interesa solicitar informes para mi evento.")} 
+                href={initialBusinessData.whatsappUrl + "?text=" + encodeURIComponent("Hola La Antigua Eventos, me interesa solicitar informes para mi evento.")} 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="footer-contact-pill"
@@ -61,12 +63,17 @@ export const Footer = () => {
                 <span>WhatsApp: {initialBusinessData.phoneFormatted}</span>
               </a>
 
-              <a href={`mailto:${initialBusinessData.email}`} className="footer-contact-pill">
-                <MailIcon size={16} />
-                <span>{initialBusinessData.email}</span>
+              <a 
+                href={initialBusinessData.instagramUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="footer-contact-pill"
+              >
+                <span>Instagram: @{initialBusinessData.instagram}</span>
               </a>
-              <span style={{ fontSize: "0.8rem", color: "#8E887E", lineHeight: 1.5 }}>
-                Atención directa en Reynosa, Tamaulipas.
+
+              <span style={{ fontSize: "0.8rem", color: "#A8A29E", lineHeight: 1.5 }}>
+                {initialBusinessData.city}
               </span>
             </div>
           </div>

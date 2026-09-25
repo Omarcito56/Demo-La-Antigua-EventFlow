@@ -1,31 +1,41 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { ArrowRightIcon } from "../common/Icons";
+import { ArrowRightIcon, CalendarIcon } from "../common/Icons";
+import { trackEvent } from "../../analytics/analytics";
 
 export const FinalCtaSection = () => {
   return (
     <section className="final-cta-section">
       <img 
-        src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1400&q=80" 
-        alt="Recepción de banquete elegante" 
+        src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1500&q=80" 
+        alt="Recepción romántica de celebración en La Antigua Eventos" 
         className="final-cta-bg-img"
         loading="lazy"
       />
       <div className="container">
         <div className="final-cta-content">
           <span className="eyebrow" style={{ color: "var(--color-champagne)" }}>
-            Comienza Hoy
+            DISPONIBILIDAD INMEDIATA
           </span>
           <h2 className="final-cta-title">
-            Haz que tu gran día empiece con la mejor experiencia.
+            Todo empieza con una fecha.
           </h2>
           <p className="final-cta-text">
-            Explora paquetes integrales para Los Cerezos Salón de Eventos en Reynosa y solicita disponibilidad para tu fecha desde un mismo lugar.
+            Consulta disponibilidad y comienza a organizar tu próxima celebración.
           </p>
-          <Link to="/cotizar" className="btn btn-accent btn-lg">
-            <span>Cotizar mi evento</span>
+          <a 
+            href="#disponibilidad" 
+            className="btn btn-accent btn-lg"
+            onClick={() => {
+              trackEvent("demo_cta_clicked", {
+                cta_name: "consultar_mi_fecha_final",
+                location: "final_cta_section"
+              });
+            }}
+          >
+            <CalendarIcon size={18} />
+            <span>Consultar mi fecha</span>
             <ArrowRightIcon size={18} />
-          </Link>
+          </a>
         </div>
       </div>
     </section>

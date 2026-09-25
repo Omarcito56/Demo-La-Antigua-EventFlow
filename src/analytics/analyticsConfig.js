@@ -2,12 +2,13 @@
  * Configuración centralizada de Analytics para demos comerciales de BS Code.
  * 
  * Configurado para la propuesta demostrativa:
- * Los Cerezos Salón de Eventos (BS EventFlow)
+ * La Antigua Eventos (BS EventFlow)
  */
 
 export const ANALYTICS_CONFIG = {
-  demoId: "los_cerezos_eventflow",
-  prospectId: "los_cerezos",
+  demoId: "la_antigua_eventflow",
+  prospectId: "la_antigua",
   projectType: "bs_code_demo",
   projectName: "BS Code Demos"
 };
+

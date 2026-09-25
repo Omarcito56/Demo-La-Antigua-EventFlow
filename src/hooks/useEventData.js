@@ -18,7 +18,9 @@ const STORAGE_KEYS = {
   EVENTS: "eventflow_events",
   CLIENTS: "eventflow_clients",
   PAYMENTS: "eventflow_payments",
-  AUTH: "eventflow_auth"
+  CALENDAR_OVERRIDES: "eventflow_calendar_overrides",
+  AUTH: "eventflow_auth",
+  DATA_VERSION: "eventflow_version_antigua_v3_pricing"
 };
 
 const getStored = (key, fallback) => {
@@ -40,21 +42,48 @@ const setStored = (key, value) => {
   }
 };
 
+// Validador de integridad para asegurar que el catálogo tenga todos los paquetes de La Antigua
+const isValidAntiguaCatalog = (pkgs) => {
+  if (!Array.isArray(pkgs) || pkgs.length < 3) return false;
+  const hasEsencial = pkgs.some(p => p.id === "esencial");
+  const hasCelebracion = pkgs.some(p => p.id === "celebracion");
+  const hasExperiencia = pkgs.some(p => p.id === "experiencia");
+  return hasEsencial && hasCelebracion && hasExperiencia;
+};
+
 export const useEventData = () => {
   const [business, setBusiness] = useState(() => getStored(STORAGE_KEYS.BUSINESS, initialBusinessData));
-  const [packages, setPackages] = useState(() => getStored(STORAGE_KEYS.PACKAGES, initialPackagesData));
+  const [packages, setPackages] = useState(() => {
+    const stored = getStored(STORAGE_KEYS.PACKAGES, initialPackagesData);
+    if (!isValidAntiguaCatalog(stored)) {
+      try {
+        localStorage.setItem(STORAGE_KEYS.PACKAGES, JSON.stringify(initialPackagesData));
+      } catch (err) {}
+      return initialPackagesData;
+    }
+    return stored;
+  });
   const [requests, setRequests] = useState(() => getStored(STORAGE_KEYS.REQUESTS, initialRequestsData));
   const [quotes, setQuotes] = useState(() => getStored(STORAGE_KEYS.QUOTES, initialQuotesData));
   const [events, setEvents] = useState(() => getStored(STORAGE_KEYS.EVENTS, initialEventsData));
   const [clients, setClients] = useState(() => getStored(STORAGE_KEYS.CLIENTS, initialClientsData));
   const [payments, setPayments] = useState(() => getStored(STORAGE_KEYS.PAYMENTS, initialPaymentsData));
+  const [calendarOverrides, setCalendarOverrides] = useState(() => getStored(STORAGE_KEYS.CALENDAR_OVERRIDES, {}));
 
   const refreshFromStorage = useCallback(() => {
-    // Verificar inicialización limpia de datos para Los Cerezos
+    // Verificar inicialización limpia de datos para La Antigua Eventos con control de versión
     const storedBus = getStored(STORAGE_KEYS.BUSINESS, null);
-    const isOldData = !storedBus || !storedBus.name || !storedBus.name.includes("Cerezos");
+    const storedPkgs = getStored(STORAGE_KEYS.PACKAGES, []);
+    const storedVer = localStorage.getItem(STORAGE_KEYS.DATA_VERSION);
+    
+    const isOldData = !storedBus || 
+      !storedBus.name || 
+      !storedBus.name.includes("Antigua") || 
+      !isValidAntiguaCatalog(storedPkgs) ||
+      storedVer !== "3.0";
 
     if (isOldData) {
+      localStorage.setItem(STORAGE_KEYS.DATA_VERSION, "3.0");
       localStorage.setItem(STORAGE_KEYS.BUSINESS, JSON.stringify(initialBusinessData));
       localStorage.setItem(STORAGE_KEYS.PACKAGES, JSON.stringify(initialPackagesData));
       localStorage.setItem(STORAGE_KEYS.REQUESTS, JSON.stringify(initialRequestsData));
@@ -62,6 +91,7 @@ export const useEventData = () => {
       localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(initialEventsData));
       localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(initialClientsData));
       localStorage.setItem(STORAGE_KEYS.PAYMENTS, JSON.stringify(initialPaymentsData));
+      localStorage.setItem(STORAGE_KEYS.CALENDAR_OVERRIDES, JSON.stringify({}));
     }
 
     setBusiness(getStored(STORAGE_KEYS.BUSINESS, initialBusinessData));
@@ -71,7 +101,9 @@ export const useEventData = () => {
     setEvents(getStored(STORAGE_KEYS.EVENTS, initialEventsData));
     setClients(getStored(STORAGE_KEYS.CLIENTS, initialClientsData));
     setPayments(getStored(STORAGE_KEYS.PAYMENTS, initialPaymentsData));
+    setCalendarOverrides(getStored(STORAGE_KEYS.CALENDAR_OVERRIDES, {}));
   }, []);
+
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -88,18 +120,18 @@ export const useEventData = () => {
   }, [refreshFromStorage]);
 
   /**
-   * Crea una nueva solicitud desde la web pública con folio correlativo EVT-000126+
+   * Crea una nueva solicitud desde la web pública con folio correlativo ANT-000126+
    */
   const createRequest = (formData) => {
     const currentRequests = getStored(STORAGE_KEYS.REQUESTS, initialRequestsData);
     const currentClients = getStored(STORAGE_KEYS.CLIENTS, initialClientsData);
     const currentQuotes = getStored(STORAGE_KEYS.QUOTES, initialQuotesData);
 
-    // Calcular siguiente folio secuencial
+    // Calcular siguiente folio secuencial ANT-
     let nextNum = 126;
     currentRequests.forEach((req) => {
-      if (req.folio && req.folio.startsWith("EVT-")) {
-        const numPart = parseInt(req.folio.replace("EVT-", ""), 10);
+      if (req.folio && req.folio.startsWith("ANT-")) {
+        const numPart = parseInt(req.folio.replace("ANT-", ""), 10);
         if (!isNaN(numPart) && numPart >= nextNum) {
           nextNum = numPart + 1;
         }
@@ -107,7 +139,7 @@ export const useEventData = () => {
     });
 
     const paddedNum = String(nextNum).padStart(6, "0");
-    const folio = `EVT-${paddedNum}`;
+    const folio = `ANT-${paddedNum}`;
 
     const newRequest = {
       id: `req-${Date.now()}`,
@@ -115,15 +147,15 @@ export const useEventData = () => {
       clientName: formData.clientName || "Cliente Demo",
       clientPhone: formData.clientPhone || "",
       clientEmail: formData.clientEmail || "",
-      cityZone: formData.cityZone || "Área Metropolitana",
+      cityZone: formData.cityZone || "Reynosa, Tamaulipas",
       eventType: formData.eventType || "Boda",
-      guests: Number(formData.guests) || 100,
+      guests: Number(formData.guests) || 120,
       packageId: formData.packageId || "celebracion",
       packageName: formData.packageName || "Celebración",
-      packageBasePrice: Number(formData.packageBasePrice) || 22000,
+      packageBasePrice: Number(formData.packageBasePrice) || 25000,
       extras: formData.extras || [],
       extrasTotal: Number(formData.extrasTotal) || 0,
-      estimatedTotal: Number(formData.estimatedTotal) || 35000,
+      estimatedTotal: Number(formData.estimatedTotal) || 25000,
       suggestedDeposit: Number(formData.suggestedDeposit) || 5000,
       date: formData.date || new Date().toISOString().split("T")[0],
       status: "Nueva",
@@ -211,7 +243,7 @@ export const useEventData = () => {
     const item = current.find((q) => q.id === id);
     const oldStatus = item ? item.status : "desconocido";
 
-    const updated = current.map((q) => (q.id === id ? { ...q, status: newStatus } : q));
+    const updated = current.map((q) => (q.id === id ? { ...q, status: newStatus } : req));
     setStored(STORAGE_KEYS.QUOTES, updated);
 
     if (oldStatus !== newStatus) {
@@ -252,7 +284,7 @@ export const useEventData = () => {
       balance: Math.max(0, req.estimatedTotal - (req.suggestedDeposit || 5000)),
       status: "Apartado",
       packageName: req.packageName,
-      zone: req.cityZone || "Área Metropolitana"
+      zone: req.cityZone || "Reynosa, Tamaulipas"
     };
 
     setStored(STORAGE_KEYS.EVENTS, [newEvent, ...currentEvents]);
@@ -294,12 +326,12 @@ export const useEventData = () => {
 
     setStored(STORAGE_KEYS.PAYMENTS, [newPayment, ...currentPayments]);
 
-    // Si la solicitud existe, cambiar estado a Confirmada o Esperando confirmación
+    // Si la solicitud existe, cambiar estado a Confirmada
     if (req) {
       updateRequestStatus(req.id, "Confirmada");
     }
 
-    // Actualizar evento si ya existía
+    // Actualizar o crear evento vinculado
     const eventIndex = currentEvents.findIndex((e) => e.folio === folio);
     if (eventIndex >= 0) {
       const updatedEvents = [...currentEvents];
@@ -312,6 +344,23 @@ export const useEventData = () => {
         status: "Apartado"
       };
       setStored(STORAGE_KEYS.EVENTS, updatedEvents);
+    } else if (req) {
+      const newEvent = {
+        id: `evt-${Date.now()}`,
+        folio: req.folio,
+        clientName: req.clientName,
+        clientPhone: req.clientPhone,
+        eventType: req.eventType,
+        date: req.date,
+        guests: req.guests,
+        total: req.estimatedTotal,
+        paid: amount,
+        balance: Math.max(0, req.estimatedTotal - amount),
+        status: "Apartado",
+        packageName: req.packageName,
+        zone: req.cityZone || "Reynosa, Tamaulipas"
+      };
+      setStored(STORAGE_KEYS.EVENTS, [newEvent, ...currentEvents]);
     }
 
     trackEvent("deposit_demo_registered", {
@@ -332,6 +381,17 @@ export const useEventData = () => {
   };
 
   /**
+   * Permite marcar/actualizar el estado de una fecha en el calendario admin y persistirlo
+   * Estados: "Disponible", "Solicitud", "Cotización", "Apartado", "Confirmado", "Bloqueado"
+   */
+  const updateCalendarDayStatus = (dateStr, newStatus) => {
+    const currentOverrides = getStored(STORAGE_KEYS.CALENDAR_OVERRIDES, {});
+    const updated = { ...currentOverrides, [dateStr]: newStatus };
+    setStored(STORAGE_KEYS.CALENDAR_OVERRIDES, updated);
+    setCalendarOverrides(updated);
+  };
+
+  /**
    * Actualiza un paquete demo
    */
   const updatePackage = (id, updatedData) => {
@@ -348,7 +408,7 @@ export const useEventData = () => {
   };
 
   /**
-   * Restaura todos los datos demo a los valores predeterminados de fábrica
+   * Restaura todos los datos demo a los valores predeterminados de fábrica de La Antigua Eventos
    */
   const resetDemoData = () => {
     localStorage.setItem(STORAGE_KEYS.BUSINESS, JSON.stringify(initialBusinessData));
@@ -358,15 +418,16 @@ export const useEventData = () => {
     localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(initialEventsData));
     localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(initialClientsData));
     localStorage.setItem(STORAGE_KEYS.PAYMENTS, JSON.stringify(initialPaymentsData));
+    localStorage.setItem(STORAGE_KEYS.CALENDAR_OVERRIDES, JSON.stringify({}));
     refreshFromStorage();
   };
 
-  // Cálculo de Métricas demo para el Administrador (Adaptadas para Los Cerezos)
+  // Cálculo de Métricas demo para el Administrador de La Antigua Eventos
   const newRequestsCount = requests.filter((r) => r.status === "Nueva").length;
   const quotesSentCount = quotes.filter((q) => q.status === "Enviada" || q.status === "Aceptada").length;
   const confirmedEventsCount = events.filter((e) => e.status === "Confirmado" || e.status === "Apartado").length;
   const upcomingEventsCount = events.filter((e) => e.status !== "Cancelado" && e.status !== "Realizado").length;
-  const pendingQuotesCount = quotes.filter((q) => q.status === "Borrador" || q.status === "Enviada").length;
+  const pendingQuotesCount = quotes.filter((q) => q.status === "Borrador" || q.status === "Cotizando" || q.status === "Enviada").length;
 
   const totalDepositsSum = payments
     .filter((p) => p.status === "Pagado" && p.concept === "Anticipo")
@@ -379,20 +440,20 @@ export const useEventData = () => {
     .filter((r) => r.status === "Nueva" || r.status === "Contactado" || r.status === "Esperando anticipo")
     .reduce((sum, r) => sum + (r.estimatedTotal || 0), 0);
 
-  // Fechas consultadas en agenda y cotizador (métrica demo con base viva)
-  const datesConsultedCount = 28 + requests.length;
+  // Fechas consultadas en agenda y cotizador (métrica con base demostrativa)
+  const datesConsultedCount = 34 + requests.length;
 
   const metrics = {
     // 5 Métricas principales solicitadas para el Dashboard:
     newRequests: newRequestsCount || 5,
     datesConsulted: datesConsultedCount,
-    quotesSent: quotesSentCount || 4,
+    pendingQuotes: pendingQuotesCount || 4,
     confirmedEvents: confirmedEventsCount || 3,
-    totalDeposits: totalDepositsSum || 50000,
+    totalDeposits: totalDepositsSum || 30000,
     // Métricas auxiliares:
+    quotesSent: quotesSentCount || 4,
     upcomingEvents: upcomingEventsCount || 4,
-    pendingQuotes: pendingQuotesCount || 5,
-    projectedIncome: projectedIncomeSum || 230000,
+    projectedIncome: projectedIncomeSum || 185000,
     activePackagesCount: packages.filter((p) => p.status === "Activo").length,
     totalClientsCount: clients.length
   };
@@ -405,6 +466,7 @@ export const useEventData = () => {
     events,
     clients,
     payments,
+    calendarOverrides,
     metrics,
     createRequest,
     updateRequestStatus,
@@ -412,6 +474,7 @@ export const useEventData = () => {
     convertRequestToEvent,
     registerDepositDemo,
     updateEventStatus,
+    updateCalendarDayStatus,
     updatePackage,
     updateBusiness,
     resetDemoData,

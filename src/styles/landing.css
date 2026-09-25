@@ -1,4 +1,4 @@
-/* Landing Page Editorial Styles: BS EventFlow — Los Cerezos Salón de Eventos */
+/* Landing Page Editorial Styles: BS EventFlow — La Antigua Eventos */
 
 /* 1. HERO SECTION */
 .hero-editorial {
@@ -845,10 +845,10 @@
 
 .dot-available { background-color: #10B981; }
 .dot-process { background-color: #F59E0B; }
-.dot-reserved { background-color: #681F32; }
-.dot-unavailable { background-color: #9CA3AF; }
+.dot-reserved { background-color: #A86C60; }
+.dot-unavailable { background-color: #6B7280; }
 .dot-limited { background-color: #F59E0B; }
-.dot-busy { background-color: #681F32; }
+.dot-busy { background-color: #6B7280; }
 
 .calendar-month-grid {
   display: grid;
@@ -911,9 +911,9 @@
 }
 
 .status-tag-reserved {
-  background-color: var(--color-burgundy-soft);
-  color: var(--color-burgundy);
-  border: 1px solid rgba(104, 31, 50, 0.2);
+  background-color: var(--color-terracotta-soft);
+  color: var(--color-terracotta);
+  border: 1px solid rgba(168, 108, 96, 0.25);
 }
 
 .status-tag-unavailable,
@@ -937,7 +937,7 @@
 }
 
 .status-tag-reserved-dot {
-  background-color: #681F32;
+  background-color: #A86C60;
 }
 
 .status-tag-unavailable-dot,

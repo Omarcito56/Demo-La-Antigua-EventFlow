@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { 
   LayoutDashboardIcon, FileTextIcon, CalendarIcon, UsersIcon, 
-  CreditCardIcon, SparklesIcon, SettingsIcon, LogOutIcon, ArrowLeftIcon, CerezosLogoIcon 
+  CreditCardIcon, SparklesIcon, SettingsIcon, LogOutIcon, ArrowLeftIcon, LaAntiguaLogoIcon 
 } from "../common/Icons";
 import { useEventData } from "../../hooks/useEventData";
 
@@ -19,18 +19,19 @@ export const AdminSidebar = () => {
     <aside className="admin-sidebar">
       {/* Brand Header */}
       <div className="sidebar-header">
-        <div className="sidebar-logo-icon">
-          <CerezosLogoIcon size={22} />
+        <div className="sidebar-logo-icon" style={{ backgroundColor: "var(--color-terracotta)", color: "#FFFFFF" }}>
+          <LaAntiguaLogoIcon size={22} />
         </div>
         <div className="sidebar-brand-text">
           <h2 className="sidebar-title">EventFlow Admin</h2>
-          <span className="sidebar-sub">{business.brandShort}</span>
+          <span className="sidebar-sub">{business.name}</span>
           <span className="sidebar-demo-tag">Propuesta Demo</span>
         </div>
       </div>
 
-      {/* Nav Menu (9 items) */}
+      {/* Nav Menu (Exact 9 items in required order) */}
       <ul className="sidebar-nav">
+        {/* 1. Resumen */}
         <li>
           <NavLink 
             to="/admin/dashboard" 
@@ -41,6 +42,7 @@ export const AdminSidebar = () => {
           </NavLink>
         </li>
 
+        {/* 2. Solicitudes */}
         <li>
           <NavLink 
             to="/admin/solicitudes" 
@@ -54,6 +56,7 @@ export const AdminSidebar = () => {
           </NavLink>
         </li>
 
+        {/* 3. Calendario */}
         <li>
           <NavLink 
             to="/admin/calendario" 
@@ -64,31 +67,7 @@ export const AdminSidebar = () => {
           </NavLink>
         </li>
 
-        <li>
-          <NavLink 
-            to="/admin/eventos" 
-            className={({ isActive }) => `sidebar-item-link ${isActive ? "active" : ""}`}
-          >
-            <SparklesIcon size={18} />
-            <span>Eventos</span>
-            {metrics.upcomingEvents > 0 && (
-              <span className="sidebar-badge" style={{ backgroundColor: "#10B981", color: "#FFF" }}>
-                {metrics.upcomingEvents}
-              </span>
-            )}
-          </NavLink>
-        </li>
-
-        <li>
-          <NavLink 
-            to="/admin/clientes" 
-            className={({ isActive }) => `sidebar-item-link ${isActive ? "active" : ""}`}
-          >
-            <UsersIcon size={18} />
-            <span>Clientes</span>
-          </NavLink>
-        </li>
-
+        {/* 4. Cotizaciones */}
         <li>
           <NavLink 
             to="/admin/cotizaciones" 
@@ -104,26 +83,56 @@ export const AdminSidebar = () => {
           </NavLink>
         </li>
 
+        {/* 5. Eventos */}
+        <li>
+          <NavLink 
+            to="/admin/eventos" 
+            className={({ isActive }) => `sidebar-item-link ${isActive ? "active" : ""}`}
+          >
+            <SparklesIcon size={18} />
+            <span>Eventos</span>
+            {metrics.upcomingEvents > 0 && (
+              <span className="sidebar-badge" style={{ backgroundColor: "#10B981", color: "#FFF" }}>
+                {metrics.upcomingEvents}
+              </span>
+            )}
+          </NavLink>
+        </li>
+
+        {/* 6. Clientes */}
+        <li>
+          <NavLink 
+            to="/admin/clientes" 
+            className={({ isActive }) => `sidebar-item-link ${isActive ? "active" : ""}`}
+          >
+            <UsersIcon size={18} />
+            <span>Clientes</span>
+          </NavLink>
+        </li>
+
+        {/* 7. Pagos */}
         <li>
           <NavLink 
             to="/admin/pagos" 
             className={({ isActive }) => `sidebar-item-link ${isActive ? "active" : ""}`}
           >
             <CreditCardIcon size={18} />
-            <span>Pagos y Anticipos</span>
+            <span>Pagos</span>
           </NavLink>
         </li>
 
+        {/* 8. Paquetes */}
         <li>
           <NavLink 
             to="/admin/paquetes" 
             className={({ isActive }) => `sidebar-item-link ${isActive ? "active" : ""}`}
           >
             <SparklesIcon size={18} />
-            <span>Paquetes Demo</span>
+            <span>Paquetes</span>
           </NavLink>
         </li>
 
+        {/* 9. Configuración */}
         <li>
           <NavLink 
             to="/admin/configuracion" 

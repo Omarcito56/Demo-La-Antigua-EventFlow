@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { mockAvailabilityMap } from "../../data/eventFlowData";
-import { ArrowRightIcon, CalendarIcon, SparklesIcon } from "../common/Icons";
+import { ArrowRightIcon, CalendarIcon, SparklesIcon, CheckCircleIcon } from "../common/Icons";
 import { trackEvent } from "../../analytics/analytics";
 
 export const AvailabilityCalendarSection = () => {
@@ -19,11 +19,11 @@ export const AvailabilityCalendarSection = () => {
     const iso = d.toISOString().split("T")[0];
     
     // Mapeo demostrativo con 4 estados oficiales:
-    // "disponible", "proceso", "apartada", "no_disponible"
+    // "disponible", "limitada", "proceso", "apartada"
     const status = mockAvailabilityMap[iso] || (
-      i % 5 === 0 ? "apartada" :
+      i % 6 === 0 ? "apartada" :
+      i % 4 === 0 ? "limitada" :
       i % 3 === 0 ? "proceso" :
-      i % 7 === 0 ? "no_disponible" :
       "disponible"
     );
     
@@ -38,11 +38,17 @@ export const AvailabilityCalendarSection = () => {
   const handleDateSelect = (day) => {
     setSelectedDate(day);
     trackEvent("availability_checked", {
-      status: day.status
+      status: day.status,
+      date: day.dateStr
     });
   };
 
   const handleProceedToQuote = (isoDate) => {
+    trackEvent("demo_cta_clicked", {
+      cta_name: "consultar_mi_fecha_calendar",
+      location: "availability_section",
+      selected_date: isoDate
+    });
     navigate(`/cotizar?fecha=${isoDate}`);
   };
 
@@ -52,82 +58,83 @@ export const AvailabilityCalendarSection = () => {
         return {
           label: "Disponible",
           tagClass: "status-tag-available",
-          dotClass: "status-tag-available-dot",
-          canQuote: true,
           badgeColor: "#065F46",
           badgeBg: "#ECFDF5",
-          message: "Fecha disponible para celebrar tu gran evento."
+          dotColor: "#10B981",
+          canQuote: true,
+          message: "Esta fecha aparece disponible en la demostración para comenzar tu solicitud."
+        };
+      case "limitada":
+        return {
+          label: "Disponibilidad limitada",
+          shortLabel: "Limitada",
+          tagClass: "status-tag-limited",
+          badgeColor: "#92400E",
+          badgeBg: "#FEF3C7",
+          dotColor: "#F59E0B",
+          canQuote: true,
+          message: "Existe una solicitud en proceso para esta fecha. Aún es posible registrar tu cotización preferencial."
         };
       case "proceso":
         return {
-          label: "Cotización en proceso",
+          label: "En proceso",
           shortLabel: "En proceso",
           tagClass: "status-tag-process",
-          dotClass: "status-tag-process-dot",
+          badgeColor: "#A86C60",
+          badgeBg: "#F9EFEF",
+          dotColor: "#A86C60",
           canQuote: true,
-          badgeColor: "#92400E",
-          badgeBg: "#FEF3C7",
-          message: "Fecha con cotizaciones en trámite. Aún puedes enviar tu solicitud preferencial."
+          message: "Existe una solicitud activa en revisión. Puedes enviar tus datos para consultar alternativas o lista prioritaria."
         };
       case "apartada":
-        return {
-          label: "Apartada",
-          tagClass: "status-tag-reserved",
-          dotClass: "status-tag-reserved-dot",
-          canQuote: false,
-          badgeColor: "var(--color-burgundy)",
-          badgeBg: "var(--color-burgundy-soft)",
-          message: "Fecha apartada con anticipo registrado para otro evento demo."
-        };
-      case "no_disponible":
       default:
         return {
-          label: "No disponible",
-          shortLabel: "No disp.",
-          tagClass: "status-tag-unavailable",
-          dotClass: "status-tag-unavailable-dot",
-          canQuote: false,
+          label: "Apartada",
+          shortLabel: "Apartada",
+          tagClass: "status-tag-reserved",
           badgeColor: "#6B7280",
           badgeBg: "#F3F4F6",
-          message: "Fecha no disponible para nuevos montajes o mantenimiento programado."
+          dotColor: "#6B7280",
+          canQuote: false,
+          message: "Esta fecha se encuentra apartada con anticipo en la demostración."
         };
     }
   };
 
   return (
-    <section className="calendar-demo-section" id="calendario">
+    <section className="calendar-demo-section" id="disponibilidad">
       <div className="container">
         <div className="section-header-centered">
-          <span className="eyebrow">Agenda y Disponibilidad en Vivo</span>
-          <h2 className="section-title-editorial">Encuentra tu fecha</h2>
+          <span className="eyebrow">CONSULTA TU FECHA + ORGANIZA TU EVENTO</span>
+          <h2 className="section-title-editorial">¿Ya tienes una fecha en mente?</h2>
           <p className="section-subtext">
-            Explora la disponibilidad en vivo para tu boda, XV años o evento social en Los Cerezos. Selecciona una fecha libre para comenzar tu cotización o solicitar apartado preliminar.
+            Consulta una fecha y comienza tu solicitud sin esperar a preguntar primero por disponibilidad mediante mensajes.
           </p>
         </div>
 
         <div className="calendar-demo-box">
-          {/* Header & Leyenda de 4 Estados Oficiales */}
+          {/* Header & Leyenda de 4 Estados DEMO Oficiales */}
           <div className="calendar-legend-bar">
             <div className="legend-pill">
-              <span className="legend-color-dot dot-available" />
+              <span className="legend-color-dot" style={{ backgroundColor: "#10B981" }} />
               <span>Disponible</span>
             </div>
             <div className="legend-pill">
-              <span className="legend-color-dot dot-process" />
-              <span>Cotización en proceso</span>
+              <span className="legend-color-dot" style={{ backgroundColor: "#F59E0B" }} />
+              <span>Disponibilidad limitada</span>
             </div>
             <div className="legend-pill">
-              <span className="legend-color-dot dot-reserved" />
+              <span className="legend-color-dot" style={{ backgroundColor: "#A86C60" }} />
+              <span>En proceso</span>
+            </div>
+            <div className="legend-pill">
+              <span className="legend-color-dot" style={{ backgroundColor: "#6B7280" }} />
               <span>Apartada</span>
-            </div>
-            <div className="legend-pill">
-              <span className="legend-color-dot dot-unavailable" />
-              <span>No disponible</span>
             </div>
           </div>
 
           <div style={{ textAlign: "center", marginBottom: "1.25rem", textTransform: "capitalize", fontWeight: 700, fontSize: "1.1rem", color: "var(--color-charcoal-deep)", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
-            <CalendarIcon size={18} style={{ color: "var(--color-burgundy)" }} />
+            <CalendarIcon size={18} style={{ color: "var(--color-terracotta)" }} />
             <span>{currentMonthName}</span>
           </div>
 
@@ -147,10 +154,10 @@ export const AvailabilityCalendarSection = () => {
                 <div 
                   key={idx} 
                   className={`calendar-day-cell ${isSelected ? "selected" : ""}`}
-                  style={isSelected ? { borderColor: "var(--color-burgundy)", backgroundColor: "var(--color-burgundy-soft)", transform: "scale(1.03)" } : {}}
+                  style={isSelected ? { borderColor: "var(--color-terracotta)", backgroundColor: "var(--color-terracotta-soft)", transform: "scale(1.03)" } : {}}
                   onClick={() => handleDateSelect(day)}
                 >
-                  <span className="day-cell-num" style={isSelected ? { color: "var(--color-burgundy)", fontWeight: 700 } : {}}>
+                  <span className="day-cell-num" style={isSelected ? { color: "var(--color-terracotta)", fontWeight: 700 } : {}}>
                     {day.dayNum}
                   </span>
                   {/* Etiqueta de texto para desktop/tablet */}
@@ -158,7 +165,11 @@ export const AvailabilityCalendarSection = () => {
                     {details.shortLabel || details.label}
                   </span>
                   {/* Micro indicador de punto para móvil */}
-                  <span className={`day-cell-dot ${details.dotClass}`} title={details.label} />
+                  <span 
+                    className="day-cell-dot" 
+                    style={{ backgroundColor: details.dotColor, display: "inline-block" }}
+                    title={details.label} 
+                  />
                 </div>
               );
             })}
@@ -186,32 +197,42 @@ export const AvailabilityCalendarSection = () => {
                       {currentDetails.label}
                     </span>
                   </div>
-                  <span style={{ fontSize: "0.82rem", color: "var(--color-text-secondary)", marginTop: "0.25rem", display: "block" }}>
+                  <span style={{ fontSize: "0.85rem", color: "var(--color-text-secondary)", marginTop: "0.25rem", display: "block" }}>
                     {currentDetails.message}
                   </span>
                 </div>
 
-                {currentDetails.canQuote ? (
+                <div className="callout-action-wrap">
                   <button 
                     type="button" 
                     className="btn btn-primary btn-sm callout-action-btn"
                     onClick={() => handleProceedToQuote(selectedDate.dateStr)}
                   >
                     <SparklesIcon size={15} />
-                    <span>Cotizar para esta fecha</span>
+                    <span>Consultar mi fecha</span>
                     <ArrowRightIcon size={15} />
                   </button>
-                ) : (
-                  <span className="callout-busy-notice" style={{ color: currentDetails.badgeColor }}>
-                    Fecha {currentDetails.label.toLowerCase()} para nuevas reservas
-                  </span>
-                )}
+                </div>
               </div>
             );
           })()}
 
+          {!selectedDate && (
+            <div style={{ textAlign: "center", marginTop: "1.25rem" }}>
+              <button 
+                type="button" 
+                className="btn btn-secondary btn-sm"
+                onClick={() => handleProceedToQuote("")}
+              >
+                <CalendarIcon size={15} />
+                <span>Consultar mi fecha en el cotizador</span>
+                <ArrowRightIcon size={15} />
+              </button>
+            </div>
+          )}
+
           <p style={{ textAlign: "center", marginTop: "1.75rem", fontSize: "0.78rem", color: "var(--color-text-muted)" }}>
-            * Calendario de disponibilidad en tiempo real con fines demostrativos para Los Cerezos Salón de Eventos. Las fechas definitivas quedan sujetas a apartado formal.
+            Disponibilidad mostrada únicamente con fines demostrativos.
           </p>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEventData } from "../../hooks/useEventData";
 import { 
   FileTextIcon, CalendarIcon, CreditCardIcon, 
-  EyeIcon, ArrowRightIcon, CheckCircleIcon, SendIcon
+  EyeIcon, ArrowRightIcon, CheckCircleIcon, SendIcon, SparklesIcon 
 } from "../../components/common/Icons";
 import { StatusBadge } from "../../components/common/StatusBadge";
 import { EventDetailModal } from "../../components/admin/EventDetailModal";
@@ -16,35 +16,40 @@ export const AdminDashboardPage = () => {
   useTrackOnMount("admin_requests_opened", { module: "dashboard" });
 
   const recentRequests = requests.slice(0, 5);
-  const upcomingEvents = events.filter(e => e.status !== "Cancelado").slice(0, 4);
+
+  // Ordenar próximos eventos/fechas
+  const upcomingEvents = events
+    .filter(e => e.status !== "Cancelado")
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .slice(0, 5);
 
   return (
     <div>
       {/* Disclaimer de datos demo */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem", padding: "0.6rem 1rem", backgroundColor: "#FEF3C7", borderRadius: "var(--radius-sm)", border: "1px solid #FDE68A", fontSize: "0.82rem", color: "#92400E" }}>
         <span>
-          <strong>Entorno de Demostración Comercial:</strong> Métricas, folios y saldos mostrados son simulaciones para Los Cerezos Salón de Eventos en BS EventFlow.
+          <strong>Entorno de Demostración Comercial:</strong> Métricas, folios y saldos mostrados son simulaciones para La Antigua Eventos en BS EventFlow.
         </span>
         <span style={{ fontWeight: 700, textTransform: "uppercase", fontSize: "0.72rem" }}>Datos Demostrativos</span>
       </div>
 
-      {/* 5 Métricas Demo Oficiales Solicitadas */}
+      {/* 5 Métricas Demo Oficiales con Protagonismo a Fechas */}
       <div className="stats-grid">
         {/* 1. Solicitudes Nuevas */}
         <div className="stat-card">
           <div>
-            <div className="stat-val" style={{ color: "var(--color-burgundy)" }}>
+            <div className="stat-val" style={{ color: "var(--color-terracotta)" }}>
               {metrics.newRequests}
             </div>
             <div className="stat-label">Solicitudes nuevas</div>
           </div>
-          <div className="stat-icon-wrap" style={{ backgroundColor: "var(--color-burgundy-soft)", color: "var(--color-burgundy)" }}>
+          <div className="stat-icon-wrap" style={{ backgroundColor: "var(--color-terracotta-soft)", color: "var(--color-terracotta)" }}>
             <FileTextIcon size={22} />
           </div>
         </div>
 
-        {/* 2. Fechas Consultadas */}
-        <div className="stat-card">
+        {/* 2. Fechas Consultadas (Protagonista) */}
+        <div className="stat-card" style={{ borderColor: "rgba(168, 108, 96, 0.35)", backgroundColor: "#FAF7F2" }}>
           <div>
             <div className="stat-val" style={{ color: "var(--color-charcoal-deep)" }}>
               {metrics.datesConsulted}
@@ -56,13 +61,13 @@ export const AdminDashboardPage = () => {
           </div>
         </div>
 
-        {/* 3. Cotizaciones Enviadas */}
+        {/* 3. Cotizaciones Pendientes */}
         <div className="stat-card">
           <div>
             <div className="stat-val" style={{ color: "#D97706" }}>
-              {metrics.quotesSent}
+              {metrics.pendingQuotes}
             </div>
-            <div className="stat-label">Cotizaciones enviadas</div>
+            <div className="stat-label">Cotizaciones pendientes</div>
           </div>
           <div className="stat-icon-wrap" style={{ backgroundColor: "#FEF3C7", color: "#D97706" }}>
             <SendIcon size={22} />
@@ -85,18 +90,18 @@ export const AdminDashboardPage = () => {
         {/* 5. Anticipos Registrados */}
         <div className="stat-card">
           <div>
-            <div className="stat-val" style={{ color: "var(--color-burgundy)" }}>
+            <div className="stat-val" style={{ color: "var(--color-terracotta)" }}>
               ${metrics.totalDeposits.toLocaleString("es-MX")}
             </div>
             <div className="stat-label">Anticipos registrados</div>
           </div>
-          <div className="stat-icon-wrap" style={{ backgroundColor: "var(--color-accent-soft)", color: "var(--color-champagne-dark)" }}>
+          <div className="stat-icon-wrap" style={{ backgroundColor: "var(--color-terracotta-soft)", color: "var(--color-terracotta)" }}>
             <CreditCardIcon size={22} />
           </div>
         </div>
       </div>
 
-      {/* Grid de 2 Columnas: Solicitudes Recientes y Eventos Próximos */}
+      {/* Grid de 2 Columnas: Solicitudes Recientes y Módulo Próximas Fechas */}
       <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "2rem", marginBottom: "2rem" }}>
         {/* Solicitudes Recientes */}
         <div className="admin-card-table">
@@ -150,42 +155,63 @@ export const AdminDashboardPage = () => {
           </div>
         </div>
 
-        {/* Eventos Próximos en Agenda */}
+        {/* MÓDULO SOLICITADO: Próximas Fechas */}
         <div className="admin-card-table">
           <div className="admin-table-toolbar">
-            <h3 style={{ fontSize: "1.05rem", color: "var(--color-charcoal-deep)" }}>
-              Próximos Eventos en Agenda
-            </h3>
-            <Link to="/admin/eventos" className="btn btn-outline btn-sm">
-              <span>Ver agenda</span>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <CalendarIcon size={18} style={{ color: "var(--color-terracotta)" }} />
+              <h3 style={{ fontSize: "1.05rem", color: "var(--color-charcoal-deep)" }}>
+                Próximas fechas
+              </h3>
+            </div>
+            <Link to="/admin/calendario" className="btn btn-outline btn-sm">
+              <span>Ver calendario</span>
               <ArrowRightIcon size={14} />
             </Link>
           </div>
 
-          <div style={{ padding: "1.25rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div style={{ padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.85rem" }}>
             {upcomingEvents.map((evt) => (
               <div 
                 key={evt.id} 
-                style={{ padding: "1rem", backgroundColor: "var(--color-bg)", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                style={{ 
+                  padding: "0.9rem 1.1rem", 
+                  backgroundColor: "var(--color-bg)", 
+                  borderRadius: "var(--radius-sm)", 
+                  border: "1px solid var(--border-light)", 
+                  display: "flex", 
+                  justifyContent: "space-between", 
+                  alignItems: "center" 
+                }}
               >
                 <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.2rem" }}>
-                    <span style={{ fontWeight: 700, fontSize: "0.92rem", color: "var(--color-charcoal-deep)" }}>{evt.eventType}</span>
-                    <span style={{ fontSize: "0.78rem", color: "var(--color-text-muted)" }}>({evt.folio})</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.25rem" }}>
+                    <span style={{ fontWeight: 700, fontSize: "1rem", color: "var(--color-terracotta)" }}>
+                      {evt.date}
+                    </span>
+                    <span style={{ fontSize: "0.76rem", color: "var(--color-text-muted)" }}>
+                      ({evt.folio})
+                    </span>
                   </div>
-                  <div style={{ fontSize: "0.82rem", color: "var(--color-text-secondary)" }} className="ph-mask">
-                    {evt.clientName} · {evt.guests} comensales · {evt.zone}
+                  <div style={{ fontSize: "0.88rem", fontWeight: 600, color: "var(--color-charcoal-deep)" }}>
+                    {evt.eventType}
+                    <span style={{ fontSize: "0.8rem", fontWeight: 400, color: "var(--color-text-secondary)", marginLeft: "0.5rem" }} className="ph-mask">
+                      · {evt.clientName} ({evt.guests} pax)
+                    </span>
                   </div>
                 </div>
 
                 <div style={{ textAlign: "right" }}>
-                  <div style={{ fontWeight: 600, fontSize: "0.85rem", color: "var(--color-accent)", marginBottom: "0.2rem" }}>
-                    {evt.date}
-                  </div>
                   <StatusBadge status={evt.status} />
                 </div>
               </div>
             ))}
+
+            {upcomingEvents.length === 0 && (
+              <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", textAlign: "center", padding: "1rem" }}>
+                No hay eventos agendados próximamente.
+              </p>
+            )}
           </div>
         </div>
       </div>

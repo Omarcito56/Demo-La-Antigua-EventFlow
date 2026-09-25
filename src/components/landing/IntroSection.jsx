@@ -1,65 +1,65 @@
 import React from "react";
-import { UtensilsIcon, CalendarIcon, ShieldCheckIcon, SparklesIcon } from "../common/Icons";
+import { CalendarIcon, SparklesIcon, HeartIcon, ShieldCheckIcon } from "../common/Icons";
 
 export const IntroSection = () => {
   return (
-    <section className="intro-section" id="experiencia">
+    <section className="intro-section" id="concepto">
       <div className="container">
         <div className="intro-grid">
           {/* Visual Composition */}
           <div className="intro-photo-composition">
             <img 
-              src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80" 
-              alt="Montaje de gala y banquete en Los Cerezos"
+              src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1000&q=80" 
+              alt="Montaje romántico y floral en La Antigua Eventos"
               className="intro-img-main"
               loading="lazy"
             />
             <div className="intro-card-overlay">
               <div className="intro-overlay-num">100%</div>
               <p className="intro-overlay-text">
-                Celebraciones completas: desde el salón y banquete hasta sonido, foto y coordinación de tu gran fecha.
+                Experiencia integral: consulta tu fecha, cotiza en vivo, aparta y organiza cada detalle de tu gran celebración.
               </p>
             </div>
           </div>
 
           {/* Text Content */}
           <div className="intro-content">
-            <span className="eyebrow">Concepto de Servicio</span>
+            <span className="eyebrow">CONCEPTO COMERCIAL</span>
             <h2 className="intro-heading">
-              Celebraciones completas, organizadas desde el primer clic.
+              Consulta tu fecha + Cotiza + Aparta + Organiza tu evento
             </h2>
             <p className="intro-text-concept">
-              En Los Cerezos Salón de Eventos combinamos instalaciones de gala con una experiencia digital que facilita explorar paquetes integrales, cotizar en vivo y solicitar disponibilidad sin fricción.
+              En La Antigua Eventos unimos la calidez de un espacio romántico y moderno con una solución digital ágil. Descubre fechas disponibles al instante, cotiza con transparencia y asegura tu día especial sin demoras.
             </p>
 
             <div className="intro-points-grid">
               <div className="intro-point-card">
                 <div className="intro-point-icon">
-                  <SparklesIcon size={22} />
-                </div>
-                <h3 className="intro-point-title">Salón y Montaje de Gala</h3>
-                <p className="intro-point-desc">
-                  Espacios climatizados con mobiliario elegante, mantelería fina y diseño floral para bodas y XV años.
-                </p>
-              </div>
-
-              <div className="intro-point-card">
-                <div className="intro-point-icon">
-                  <UtensilsIcon size={22} />
-                </div>
-                <h3 className="intro-point-title">Banquete y Experiencia</h3>
-                <p className="intro-point-desc">
-                  Menús formales en tiempos, barra de snacks, estación de café y servicio de alta calidad.
-                </p>
-              </div>
-
-              <div className="intro-point-card">
-                <div className="intro-point-icon">
                   <CalendarIcon size={22} />
                 </div>
-                <h3 className="intro-point-title">Agenda y Disponibilidad</h3>
+                <h3 className="intro-point-title">Disponibilidad en Tiempo Real</h3>
                 <p className="intro-point-desc">
-                  Consulta de fechas abiertas y seguimiento de apartado para fechas futuras con total claridad.
+                  Comprueba el calendario interactivo con fechas abiertas, en proceso y apartadas antes de iniciar.
+                </p>
+              </div>
+
+              <div className="intro-point-card">
+                <div className="intro-point-icon">
+                  <SparklesIcon size={22} />
+                </div>
+                <h3 className="intro-point-title">Ambiente Romántico y Moderno</h3>
+                <p className="intro-point-desc">
+                  Instalaciones de atmósfera refinada, mobiliario de diseño, iluminación cálida y jardines para fotografía.
+                </p>
+              </div>
+
+              <div className="intro-point-card">
+                <div className="intro-point-icon">
+                  <HeartIcon size={22} />
+                </div>
+                <h3 className="intro-point-title">Personalización Completa</h3>
+                <p className="intro-point-desc">
+                  Paquetes base ajustables por comensal y complementos gastronómicos, audiovisuales y decorativos.
                 </p>
               </div>
 
@@ -67,9 +67,9 @@ export const IntroSection = () => {
                 <div className="intro-point-icon">
                   <ShieldCheckIcon size={22} />
                 </div>
-                <h3 className="intro-point-title">Coordinación Total</h3>
+                <h3 className="intro-point-title">Apartado y Organización</h3>
                 <p className="intro-point-desc">
-                  Sonido, iluminación, fotografía, video y supervisión logística reunidos en una propuesta integral.
+                  Generación de folio único, simulación de anticipo y seguimiento centralizado de tu solicitud.
                 </p>
               </div>
             </div>

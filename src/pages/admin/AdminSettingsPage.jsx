@@ -90,7 +90,7 @@ export const AdminSettingsPage = () => {
                 type="text"
                 id="settings-phone"
                 className="form-input"
-                value={formData.phone || "8992126229"}
+                value={formData.phone || "8991055896"}
                 onChange={e => setFormData({ ...formData, phone: e.target.value })}
                 required
               />

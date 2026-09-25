@@ -16,6 +16,15 @@ export const AdminRequestsPage = () => {
 
   useTrackOnMount("admin_requests_opened", { module: "requests" });
 
+  const REQUEST_STATUSES = [
+    "Nueva",
+    "Contactado",
+    "Cotizando",
+    "Esperando anticipo",
+    "Confirmada",
+    "Descartada"
+  ];
+
   const filteredRequests = requests.filter((req) => {
     const matchesSearch = 
       (req.folio && req.folio.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -28,7 +37,7 @@ export const AdminRequestsPage = () => {
 
   const handleFastStatusChange = (id, newStatus) => {
     updateRequestStatus(id, newStatus);
-    setBannerNotice(`Estado actualizado a "${newStatus}"`);
+    setBannerNotice(`Estado de la solicitud actualizado a "${newStatus}"`);
     setTimeout(() => setBannerNotice(""), 3000);
   };
 
@@ -56,7 +65,7 @@ export const AdminRequestsPage = () => {
               <SearchIcon size={16} />
               <input
                 type="text"
-                placeholder="Buscar por folio, cliente..."
+                placeholder="Buscar por folio, cliente o evento..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -70,12 +79,9 @@ export const AdminRequestsPage = () => {
                 style={{ padding: "0.45rem 0.75rem", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontSize: "0.85rem" }}
               >
                 <option value="todos">Todos los estados</option>
-                <option value="Nueva">Nueva</option>
-                <option value="Contactado">Contactado</option>
-                <option value="Cotización enviada">Cotización enviada</option>
-                <option value="Esperando anticipo">Esperando anticipo</option>
-                <option value="Confirmada">Confirmada</option>
-                <option value="Descartada">Descartada</option>
+                {REQUEST_STATUSES.map(s => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -85,16 +91,17 @@ export const AdminRequestsPage = () => {
           </div>
         </div>
 
+        {/* Tabla solicitada: Folio | Cliente | Fecha | Evento | Invitados | Estimado | Estado | Acciones */}
         <div className="table-responsive-container">
           <table className="admin-data-table">
             <thead>
               <tr>
                 <th>Folio</th>
                 <th>Cliente</th>
-                <th>Tipo de Evento</th>
                 <th>Fecha</th>
+                <th>Evento</th>
                 <th>Invitados</th>
-                <th>Presupuesto Estimado</th>
+                <th>Estimado</th>
                 <th>Estado</th>
                 <th>Acciones</th>
               </tr>
@@ -109,10 +116,12 @@ export const AdminRequestsPage = () => {
                       {req.clientPhone}
                     </div>
                   </td>
+                  <td style={{ fontWeight: 600 }}>{req.date}</td>
                   <td>{req.eventType}</td>
-                  <td>{req.date}</td>
                   <td>{req.guests} personas</td>
-                  <td style={{ fontWeight: 600 }}>${(req.estimatedTotal || 0).toLocaleString("es-MX")} MXN</td>
+                  <td style={{ fontWeight: 700, color: "var(--color-charcoal-deep)" }}>
+                    ${(req.estimatedTotal || 0).toLocaleString("es-MX")} MXN
+                  </td>
                   <td>
                     <StatusBadge status={req.status} />
                   </td>
@@ -135,24 +144,21 @@ export const AdminRequestsPage = () => {
                         onChange={(e) => handleFastStatusChange(req.id, e.target.value)}
                         style={{ padding: "0.25rem 0.5rem", borderRadius: "var(--radius-xs)", border: "1px solid var(--border-light)", fontSize: "0.75rem", cursor: "pointer" }}
                       >
-                        <option value="Nueva">Nueva</option>
-                        <option value="Contactado">Contactado</option>
-                        <option value="Cotización enviada">Cotización enviada</option>
-                        <option value="Esperando anticipo">Esperando anticipo</option>
-                        <option value="Confirmada">Confirmada</option>
-                        <option value="Descartada">Descartada</option>
+                        {REQUEST_STATUSES.map(s => (
+                          <option key={s} value={s}>{s}</option>
+                        ))}
                       </select>
 
                       {req.status !== "Confirmada" && (
                         <button
                           type="button"
-                          className="btn btn-outline btn-sm"
-                          style={{ padding: "0.3rem 0.6rem", fontSize: "0.76rem" }}
+                          className="btn btn-primary btn-sm"
+                          style={{ padding: "0.3rem 0.6rem", fontSize: "0.75rem", whiteSpace: "nowrap" }}
                           onClick={() => handleFastConvert(req)}
-                          title="Convertir solicitud a evento"
+                          title="Convertir a evento confirmado"
                         >
                           <SparklesIcon size={12} />
-                          <span>Hacer evento</span>
+                          <span>A Evento</span>
                         </button>
                       )}
                     </div>

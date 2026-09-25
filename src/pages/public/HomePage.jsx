@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { Hero } from "../../components/landing/Hero";
+import { AvailabilityCalendarSection } from "../../components/landing/AvailabilityCalendarSection";
 import { IntroSection } from "../../components/landing/IntroSection";
-import { PackagesSection } from "../../components/landing/PackagesSection";
 import { EventTypesSection } from "../../components/landing/EventTypesSection";
+import { PackagesSection } from "../../components/landing/PackagesSection";
 import { ExperienceSection } from "../../components/landing/ExperienceSection";
 import { ProblemSolutionSection } from "../../components/landing/ProblemSolutionSection";
-import { AvailabilityCalendarSection } from "../../components/landing/AvailabilityCalendarSection";
 import { FinalCtaSection } from "../../components/landing/FinalCtaSection";
 import { LocationContact } from "../../components/landing/LocationContact";
 import { useTrackOnMount } from "../../analytics/analytics";
@@ -17,7 +17,7 @@ export const HomePage = () => {
   });
 
   useEffect(() => {
-    // Si viene con ancla hash e.g. #paquetes, #contacto, #calendario
+    // Si viene con ancla hash e.g. #paquetes, #contacto, #disponibilidad, #experiencias
     if (window.location.hash) {
       const id = window.location.hash.replace("#", "");
       const elem = document.getElementById(id);
@@ -32,14 +32,14 @@ export const HomePage = () => {
   return (
     <div className="homepage-editorial-wrap">
       <Hero />
+      <AvailabilityCalendarSection />
       <IntroSection />
-      <PackagesSection />
       <EventTypesSection />
+      <PackagesSection />
       <ExperienceSection />
       <ProblemSolutionSection />
-      <AvailabilityCalendarSection />
-      <FinalCtaSection />
       <LocationContact />
+      <FinalCtaSection />
     </div>
   );
 };

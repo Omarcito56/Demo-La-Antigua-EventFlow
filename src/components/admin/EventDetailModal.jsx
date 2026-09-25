@@ -84,7 +84,7 @@ export const EventDetailModal = ({ item, isOpen, onClose }) => {
               >
                 <option value="Nueva">Nueva</option>
                 <option value="Contactado">Contactado</option>
-                <option value="Cotización enviada">Cotización enviada</option>
+                <option value="Cotizando">Cotizando</option>
                 <option value="Esperando anticipo">Esperando anticipo</option>
                 <option value="Confirmada">Confirmada</option>
                 <option value="Descartada">Descartada</option>

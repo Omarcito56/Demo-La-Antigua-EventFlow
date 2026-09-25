@@ -12,6 +12,14 @@ export const AdminEventsPage = () => {
 
   useTrackOnMount("admin_events_opened", { module: "events" });
 
+  const EVENT_STATUSES = [
+    "Apartado",
+    "Confirmado",
+    "En preparación",
+    "Realizado",
+    "Cancelado"
+  ];
+
   const filteredEvents = events.filter((evt) => {
     const matchesSearch = 
       (evt.folio && evt.folio.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -74,27 +82,26 @@ export const AdminEventsPage = () => {
                 style={{ padding: "0.45rem 0.75rem", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontSize: "0.85rem" }}
               >
                 <option value="todos">Todos los estados</option>
-                <option value="Apartado">Apartado</option>
-                <option value="Confirmado">Confirmado</option>
-                <option value="En preparación">En preparación</option>
-                <option value="Realizado">Realizado</option>
-                <option value="Cancelado">Cancelado</option>
+                {EVENT_STATUSES.map(s => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
               </select>
             </div>
           </div>
 
           <div style={{ fontSize: "0.84rem", color: "var(--color-text-secondary)" }}>
-            Eventos en catálogo: <strong>{filteredEvents.length}</strong>
+            Eventos en agenda: <strong>{filteredEvents.length}</strong>
           </div>
         </div>
 
+        {/* Tabla solicitada: Folio | Cliente | Evento | Fecha | Invitados | Total | Pagado | Saldo | Estado | Acciones */}
         <div className="table-responsive-container">
           <table className="admin-data-table">
             <thead>
               <tr>
                 <th>Folio</th>
                 <th>Cliente</th>
-                <th>Tipo</th>
+                <th>Evento</th>
                 <th>Fecha</th>
                 <th>Invitados</th>
                 <th>Total</th>
@@ -110,7 +117,7 @@ export const AdminEventsPage = () => {
                   <td className="folio-cell">{evt.folio}</td>
                   <td className="client-name-cell ph-mask">{evt.clientName}</td>
                   <td>{evt.eventType}</td>
-                  <td>{evt.date}</td>
+                  <td style={{ fontWeight: 600 }}>{evt.date}</td>
                   <td>{evt.guests} pax</td>
                   <td style={{ fontWeight: 600 }}>${(evt.total || 0).toLocaleString("es-MX")}</td>
                   <td style={{ color: "#059669", fontWeight: 600 }}>${(evt.paid || 0).toLocaleString("es-MX")}</td>
@@ -125,13 +132,11 @@ export const AdminEventsPage = () => {
                       <select
                         value={evt.status}
                         onChange={(e) => handleStatusChange(evt.id, e.target.value)}
-                        style={{ padding: "0.25rem 0.5rem", borderRadius: "var(--radius-xs)", border: "1px solid var(--border-light)", fontSize: "0.75rem", cursor: "pointer" }}
+                        style={{ padding: "0.25rem 0.45rem", borderRadius: "var(--radius-xs)", border: "1px solid var(--border-light)", fontSize: "0.75rem", cursor: "pointer" }}
                       >
-                        <option value="Apartado">Apartado</option>
-                        <option value="Confirmado">Confirmado</option>
-                        <option value="En preparación">En preparación</option>
-                        <option value="Realizado">Realizado</option>
-                        <option value="Cancelado">Cancelado</option>
+                        {EVENT_STATUSES.map(s => (
+                          <option key={s} value={s}>{s}</option>
+                        ))}
                       </select>
 
                       {evt.balance > 0 && (
@@ -143,7 +148,7 @@ export const AdminEventsPage = () => {
                           title="Registrar abono demo"
                         >
                           <CreditCardIcon size={12} />
-                          <span>Abonar demo</span>
+                          <span>Abono</span>
                         </button>
                       )}
                     </div>
